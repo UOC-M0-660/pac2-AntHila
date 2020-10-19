@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1070724134854",
+    "firebase_url": "https://pac2-anthila.firebaseio.com",
+    "project_id": "pac2-anthila",
+    "storage_bucket": "pac2-anthila.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1070724134854:android:4c86d6c6ef2d59b93be4c7",
+        "android_client_info": {
+          "package_name": "edu.uoc.pac2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1070724134854-op42pcmh78h9uir6su0i0mkek8ioc9ub.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmovmMw-jOgXVNJN_i9zHckjxQqHeT5bc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1070724134854-op42pcmh78h9uir6su0i0mkek8ioc9ub.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

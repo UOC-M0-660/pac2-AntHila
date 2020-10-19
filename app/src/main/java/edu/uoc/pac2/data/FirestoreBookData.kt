@@ -8,12 +8,14 @@ import com.google.firebase.ktx.Firebase
  * Created by alex on 02/07/2020.
  */
 
-object FirestoreBookData {
+object FirestoreBookData
+{//Start object
 
     private const val TAG = "FirestoreBookData"
 
     /// Adds example books to Firestore
-    fun addBooksDataToFirestoreDatabase() {
+    fun addBooksDataToFirestoreDatabase()
+    {//Start method
         val firestoreDatabase = Firebase.firestore
         // Make sure you are using your own google-services.json
         Log.i(TAG, "Using firebase Project: ${firestoreDatabase.app.options.projectId}")

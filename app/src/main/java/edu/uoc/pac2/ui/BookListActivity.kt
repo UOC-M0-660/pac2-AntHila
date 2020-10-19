@@ -9,17 +9,20 @@ import edu.uoc.pac2.MyApplication
 import edu.uoc.pac2.R
 import edu.uoc.pac2.data.Book
 import edu.uoc.pac2.data.BooksInteractor
+import edu.uoc.pac2.data.FirestoreBookData
 
 /**
  * An activity representing a list of Books.
  */
-class BookListActivity : AppCompatActivity() {
+class BookListActivity : AppCompatActivity()
+{
 
     private val TAG = "BookListActivity"
 
     private lateinit var adapter: BooksListAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_list)
 
@@ -30,18 +33,21 @@ class BookListActivity : AppCompatActivity() {
         // Get Books
         getBooks()
 
+
         // TODO: Add books data to Firestore [Use once for new projects with empty Firestore Database]
     }
 
     // Init Top Toolbar
-    private fun initToolbar() {
+    private fun initToolbar()
+    {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         toolbar.title = title
     }
 
     // Init RecyclerView
-    private fun initRecyclerView() {
+    private fun initRecyclerView()
+    {
         val recyclerView = findViewById<RecyclerView>(R.id.book_list)
         // Set Layout Manager
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
@@ -52,17 +58,20 @@ class BookListActivity : AppCompatActivity() {
     }
 
     // TODO: Get Books and Update UI
-    private fun getBooks() {
+    private fun getBooks()
+    {
 
     }
 
     // TODO: Load Books from Room
-    private fun loadBooksFromLocalDb() {
+    private fun loadBooksFromLocalDb()
+    {
         throw NotImplementedError()
     }
 
     // TODO: Save Books to Local Storage
-    private fun saveBooksToLocalDatabase(books: List<Book>) {
+    private fun saveBooksToLocalDatabase(books: List<Book>)
+    {
         throw NotImplementedError()
     }
 }
