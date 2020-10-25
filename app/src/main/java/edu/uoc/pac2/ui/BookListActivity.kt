@@ -2,10 +2,14 @@ package edu.uoc.pac2.ui
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.uoc.pac2.MyApplication
 import edu.uoc.pac2.R
@@ -21,11 +25,15 @@ class BookListActivity : AppCompatActivity()
     private val TAG = "BookListActivity"
     val Fdb = FirebaseFirestore.getInstance()
     private lateinit var adapter: BooksListAdapter
+    lateinit var AdView : AdView
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_list)
+
+        //Ads
+        initAds()
 
         // Init UI
         initToolbar()
@@ -33,7 +41,6 @@ class BookListActivity : AppCompatActivity()
 
          // Get Books
         getBooks()
-
     }
 
     // Init Top Toolbar
@@ -54,6 +61,14 @@ class BookListActivity : AppCompatActivity()
         // Init Adapter
         adapter = BooksListAdapter(emptyList())
         recyclerView.adapter = adapter
+    }
+
+    private fun initAds()
+    {
+        MobileAds.initialize(this) {}
+        AdView= findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().setRequestAgent("android_studio:ad_template").build()
+        AdView.loadAd(adRequest)
     }
 
     // TODO: Get Books and Update UI

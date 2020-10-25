@@ -55,7 +55,6 @@ class BookDetailFragment : Fragment()
         // Get Book for this detail screen
         //loadBookRoom()
         loadBookFirestore(bookUid)
-        //initUI(book)
     }
 
 

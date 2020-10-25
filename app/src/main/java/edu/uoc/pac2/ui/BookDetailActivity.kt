@@ -24,7 +24,9 @@ class BookDetailActivity : AppCompatActivity()
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener{ view ->
             val shareIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, BookDetailFragment.bookShare.title +" - "+ BookDetailFragment.bookShare.urlImage)
+                val bookInformation =   "Title: " + BookDetailFragment.bookShare.title +"\n"+
+                                        "Url image: " + BookDetailFragment.bookShare.urlImage
+                putExtra(Intent.EXTRA_TEXT, bookInformation)
                 type = "text/plain"}
 
             val shareActivity = Intent.createChooser(shareIntent, null)
