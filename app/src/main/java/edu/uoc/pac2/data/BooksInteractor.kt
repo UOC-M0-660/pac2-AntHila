@@ -1,5 +1,7 @@
 package edu.uoc.pac2.data
 
+import android.util.Log
+
 /**
  * This class Interacts with {@param bookDao} to perform operations in the local database.
  *
@@ -8,25 +10,33 @@ package edu.uoc.pac2.data
  *
  * Created by alex on 03/07/2020.
  */
-class BooksInteractor(private val bookDao: BookDao) {
+class BooksInteractor(private val bookDao: BookDao)
+{
 
     // TODO: Get All Books from DAO
-    fun getAllBooks(): List<Book> {
+    fun getAllBooks(): List<Book>
+    {
         return bookDao.getAllBooks()
     }
 
     // TODO: Save Book
-    fun saveBook(book: Book) {
+    fun saveBook(book: Book)
+    {
+        Log.i("BooksInteractor" , "Dentro de saveBook()")
         bookDao.saveBook(book)
     }
 
     // TODO: Save List of Books
-    fun saveBooks(books: List<Book>) {
+    fun saveBooks(books: List<Book>)
+    {
+        Log.i("BooksInteractor" , "Dentro de saveBooks()")
         books.forEach { saveBook(it) }
+        //books.forEach{Log.i("sd","Se ha guardado en la base local el libro numero:"+it.uid)}
     }
 
     // TODO: Get Book by id
-    fun getBookById(id: Int): Book? {
+    fun getBookById(id: Int): Book?
+    {
         return bookDao.getBookById(id)
     }
 

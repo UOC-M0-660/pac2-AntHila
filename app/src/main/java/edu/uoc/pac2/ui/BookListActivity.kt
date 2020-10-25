@@ -7,8 +7,10 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
+import edu.uoc.pac2.MyApplication
 import edu.uoc.pac2.R
 import edu.uoc.pac2.data.Book
+import edu.uoc.pac2.data.BooksInteractor
 
 /**
  * An activity representing a list of Books.
@@ -17,7 +19,7 @@ class BookListActivity : AppCompatActivity()
 {
 
     private val TAG = "BookListActivity"
-    val db = FirebaseFirestore.getInstance()
+    val Fdb = FirebaseFirestore.getInstance()
     private lateinit var adapter: BooksListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -29,7 +31,7 @@ class BookListActivity : AppCompatActivity()
         initToolbar()
         initRecyclerView()
 
-        // Get Books
+         // Get Books
         getBooks()
 
     }
@@ -57,9 +59,9 @@ class BookListActivity : AppCompatActivity()
     // TODO: Get Books and Update UI
     private fun getBooks()
     {
-        val booksCollection = db.collection("books")
+        val booksCollection = Fdb.collection("books")
 
-        Log.i(TAG, "Dentro de get books")
+        Log.i(TAG, "Dentro de getBooks")
         booksCollection.addSnapshotListener { querySnapshot, e ->
             if (e != null)
             {
@@ -67,8 +69,14 @@ class BookListActivity : AppCompatActivity()
                 return@addSnapshotListener
             }
 
-            val books: List<Book> = querySnapshot!!.documents.mapNotNull { it.toObject(Book::class.java) }
+            var books: List<Book> = emptyList()
+            if (querySnapshot != null)
+            {
+                books = querySnapshot.documents.mapNotNull { it.toObject(Book::class.java) }
+            }
+
             adapter.setBooks(books)
+            //saveBooksToLocalDatabase(books)
         }
     }
 
@@ -81,6 +89,8 @@ class BookListActivity : AppCompatActivity()
     // TODO: Save Books to Local Storage
     private fun saveBooksToLocalDatabase(books: List<Book>)
     {
-        throw NotImplementedError()
+        Log.i(TAG, "Dentro de saveBooksToLocalDatabase")
+        val booksInteractor :BooksInteractor=(application as MyApplication).getBooksInteractor()
+        booksInteractor.saveBooks(books)
     }
 }
