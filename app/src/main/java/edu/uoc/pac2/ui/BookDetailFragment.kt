@@ -84,6 +84,7 @@ class BookDetailFragment : Fragment()
 
             val selectedBook: List<Book> = books.filter { book -> book.uid == uid}
             book = selectedBook[0]
+            bookShare = book
             Log.i(TAG, "The selected book is:" + book.title)
             initUI(book)
         }
@@ -131,6 +132,8 @@ class BookDetailFragment : Fragment()
          * represents.
          */
         const val ARG_ITEM_ID = "itemIdKey"
+
+        lateinit var bookShare:Book
 
         fun newInstance(itemId: Int): BookDetailFragment
         {

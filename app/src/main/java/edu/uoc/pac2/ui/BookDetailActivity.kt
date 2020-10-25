@@ -6,7 +6,6 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import edu.uoc.pac2.R
 
 /**
@@ -23,8 +22,14 @@ class BookDetailActivity : AppCompatActivity()
         setSupportActionBar(findViewById(R.id.detail_toolbar))
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener{ view ->
-            Snackbar.make(view, "Aquesta opció encara esta per desenvolupar.", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            val shareIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, BookDetailFragment.bookShare.title +" - "+ BookDetailFragment.bookShare.urlImage)
+                type = "text/plain"}
+
+            val shareActivity = Intent.createChooser(shareIntent, null)
+
+            startActivity(shareActivity)
         }
 
         // Show the Up button in the action bar.
