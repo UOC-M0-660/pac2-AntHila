@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import edu.uoc.pac2.R
 
@@ -18,7 +19,7 @@ class BookDetailActivity : AppCompatActivity()
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_detail)
-
+        configureEnterTransition()
         setSupportActionBar(findViewById(R.id.detail_toolbar))
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener{ view ->
@@ -30,7 +31,6 @@ class BookDetailActivity : AppCompatActivity()
                 type = "text/plain"}
 
             val shareActivity = Intent.createChooser(shareIntent, null)
-
             startActivity(shareActivity)
         }
 
@@ -59,26 +59,31 @@ class BookDetailActivity : AppCompatActivity()
     }
 
     // TODO: Override finish animation for actionbar back arrow
-    /*override fun onOptionsItemSelected(item: MenuItem): Boolean
+    override fun onOptionsItemSelected(item: MenuItem): Boolean
     {
-        return super.onOptionsItemSelected(item)
-    }*/
-
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId)
-    {
-        android.R.id.home -> {
-
-            NavUtils.navigateUpTo(this, Intent(this, BookListActivity::class.java))
-
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
+        super.onOptionsItemSelected(item)
+        NavUtils.navigateUpTo(this, Intent(this, BookListActivity::class.java))
+        configureExitTransition()
+        return true
     }
+
 
     // TODO: Override finish animation for phone back button
     override fun onBackPressed()
     {
         super.onBackPressed()
+        configureExitTransition()
     }
+
+    fun configureEnterTransition()
+    {
+        overridePendingTransition(R.anim.translate_in_top, R.anim.translate_out_bottom)
+    }
+
+    fun configureExitTransition()
+    {
+        overridePendingTransition(R.anim.translate_in_bottom, R.anim.translate_out_top)
+    }
+
 
 }

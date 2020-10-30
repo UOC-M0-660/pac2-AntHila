@@ -1,5 +1,6 @@
 package edu.uoc.pac2.ui
 
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -91,7 +92,14 @@ class BookListActivity : AppCompatActivity()
             }
 
             adapter.setBooks(books)
-            //saveBooksToLocalDatabase(books)
+
+            /*AsyncTask.execute{
+                saveBooksToLocalDatabase(books)
+            }
+            runOnUiThread{
+                        // Main code here
+                    }*/
+
         }
     }
 
@@ -108,4 +116,5 @@ class BookListActivity : AppCompatActivity()
         val booksInteractor :BooksInteractor=(application as MyApplication).getBooksInteractor()
         booksInteractor.saveBooks(books)
     }
+
 }

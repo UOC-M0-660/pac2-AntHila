@@ -44,6 +44,7 @@ class BookDetailFragment : Fragment()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val rootView = inflater.inflate(R.layout.fragment_book_detail, container, false)
+        //val rootView = inflater.inflate(R.layout.activity_book_detail, container, false)
         viewCentral = rootView
 
         return rootView
@@ -109,13 +110,12 @@ class BookDetailFragment : Fragment()
         val description : TextView = viewCentral!!.findViewById<TextView>(R.id.description)
         description.text = book.description
 
-        //Cover
-        val cover : ImageView = viewCentral!!.findViewById<ImageView>(R.id.book_cover)
+        //Header cover
+        val headerCover : ImageView = activity!!.findViewById<ImageView>(R.id.header_cover)
         Glide.with(this)
                 .load(book.urlImage)
-                .fitCenter()
-                .into(cover);
-
+                .centerCrop()
+                .into(headerCover)
     }
 
     // TODO: Share Book Title and Image URL

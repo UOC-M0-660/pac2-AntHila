@@ -1,7 +1,9 @@
 package edu.uoc.pac2.ui
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.internal.ContextUtils.getActivity
 import edu.uoc.pac2.R
 import edu.uoc.pac2.data.Book
 
@@ -74,7 +77,7 @@ class BooksListAdapter(private var books: List<Book>) : RecyclerView.Adapter<Boo
             val intent = Intent(view.context, BookDetailActivity::class.java).apply{
                 putExtra(BookDetailFragment.ARG_ITEM_ID, book.uid)}
 
-            view.context.startActivity(intent) }
+            view.context.startActivity(intent)}
     }
 
     // Returns total items in Adapter
