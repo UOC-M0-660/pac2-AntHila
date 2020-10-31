@@ -22,7 +22,7 @@ class BooksInteractor(private val bookDao: BookDao)
     // TODO: Save Book
     fun saveBook(book: Book)
     {
-        Log.i("BooksInteractor" , "Dentro de saveBook()")
+        Log.i("BooksInteractor" , "Dentro de saveBook(), guardando el libro: "+book.title)
         bookDao.saveBook(book)
     }
 
@@ -31,7 +31,6 @@ class BooksInteractor(private val bookDao: BookDao)
     {
         Log.i("BooksInteractor" , "Dentro de saveBooks()")
         books.forEach { saveBook(it) }
-        //books.forEach{Log.i("sd","Se ha guardado en la base local el libro numero:"+it.uid)}
     }
 
     // TODO: Get Book by id

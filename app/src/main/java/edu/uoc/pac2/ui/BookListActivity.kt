@@ -3,7 +3,7 @@ package edu.uoc.pac2.ui
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
-import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +27,8 @@ class BookListActivity : AppCompatActivity()
     val Fdb = FirebaseFirestore.getInstance()
     private lateinit var adapter: BooksListAdapter
     lateinit var AdView : AdView
+    var books: List<Book> = emptyList()
+    lateinit var booksInteractor : BooksInteractor
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -40,8 +42,17 @@ class BookListActivity : AppCompatActivity()
         initToolbar()
         initRecyclerView()
 
-         // Get Books
-        getBooks()
+        booksInteractor= (application as MyApplication).getBooksInteractor()
+
+        //Info from Room
+        loadBooksFromLocalDatabase()
+
+        //If internet connection is available the app contact with Firestore
+        if((application as MyApplication).hasInternetConnection())
+        {
+            loadBooksFromFirestore()
+        }
+
     }
 
     // Init Top Toolbar
@@ -72,12 +83,11 @@ class BookListActivity : AppCompatActivity()
         AdView.loadAd(adRequest)
     }
 
-    // TODO: Get Books and Update UI
-    private fun getBooks()
+    private fun loadBooksFromFirestore()
     {
-        val booksCollection = Fdb.collection("books")
+        Log.i(TAG, "Dentro de loadBooksFromFirestore")
 
-        Log.i(TAG, "Dentro de getBooks")
+        val booksCollection = Fdb.collection("books")
         booksCollection.addSnapshotListener { querySnapshot, e ->
             if (e != null)
             {
@@ -85,36 +95,41 @@ class BookListActivity : AppCompatActivity()
                 return@addSnapshotListener
             }
 
-            var books: List<Book> = emptyList()
             if (querySnapshot != null)
             {
-                books = querySnapshot.documents.mapNotNull { it.toObject(Book::class.java) }
-            }
-
-            adapter.setBooks(books)
-
-            /*AsyncTask.execute{
+                books = querySnapshot.documents.mapNotNull {it.toObject(Book::class.java) }
+                refreshBooksList()
                 saveBooksToLocalDatabase(books)
             }
-            runOnUiThread{
-                        // Main code here
-                    }*/
-
         }
     }
 
-    // TODO: Load Books from Room
-    private fun loadBooksFromLocalDb()
+    private fun loadBooksFromLocalDatabase()
     {
-        throw NotImplementedError()
+        Log.i(TAG, "Dentro de loadBooksFromLocalDatabase")
+        Toast.makeText(this,"Dentro de loadBooksFromLocalDatabase",Toast.LENGTH_SHORT)
+
+        AsyncTask.execute{
+            books = booksInteractor.getAllBooks()
+            val selectedBooks: List<Book> = books.filter { book -> book.uid == 2}
+            Log.i(TAG, "Selected books: "+selectedBooks.toString())
+            books=selectedBooks
+            refreshBooksList()
+        }
     }
 
-    // TODO: Save Books to Local Storage
     private fun saveBooksToLocalDatabase(books: List<Book>)
     {
         Log.i(TAG, "Dentro de saveBooksToLocalDatabase")
-        val booksInteractor :BooksInteractor=(application as MyApplication).getBooksInteractor()
-        booksInteractor.saveBooks(books)
+
+        AsyncTask.execute{
+            booksInteractor.saveBooks(books)
+        }
+    }
+
+    private fun refreshBooksList()
+    {
+        adapter.setBooks(books)
     }
 
 }
