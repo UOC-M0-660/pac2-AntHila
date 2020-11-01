@@ -53,6 +53,7 @@ class BookListActivity : AppCompatActivity()
             loadBooksFromFirestore()
         }
 
+
     }
 
     // Init Top Toolbar
@@ -107,13 +108,9 @@ class BookListActivity : AppCompatActivity()
     private fun loadBooksFromLocalDatabase()
     {
         Log.i(TAG, "Dentro de loadBooksFromLocalDatabase")
-        Toast.makeText(this,"Dentro de loadBooksFromLocalDatabase",Toast.LENGTH_SHORT)
 
         AsyncTask.execute{
             books = booksInteractor.getAllBooks()
-            val selectedBooks: List<Book> = books.filter { book -> book.uid == 2}
-            Log.i(TAG, "Selected books: "+selectedBooks.toString())
-            books=selectedBooks
             refreshBooksList()
         }
     }

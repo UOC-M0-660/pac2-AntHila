@@ -1,6 +1,9 @@
 package edu.uoc.pac2.ui
 
+import android.os.AsyncTask
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +16,8 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.uoc.pac2.R
 import edu.uoc.pac2.data.Book
+import edu.uoc.pac2.data.BooksInteractor
+
 
 /**
  * A fragment representing a single Book detail screen.
@@ -25,17 +30,20 @@ class BookDetailFragment : Fragment()
     private val TAG = "BookDetailFragment"
     val Fdb = FirebaseFirestore.getInstance()
     var viewCentral : View? = null
+    lateinit var booksInteractor : BooksInteractor
+    private val mHandler: Handler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
+        
+        booksInteractor=(activity as BookDetailActivity?)!!.getBooksInteractorFromDetailActivity()
 
         //Recover the book uid from the BookListActivity
         arguments?.let {
             if (it.containsKey(ARG_ITEM_ID))
             {
                 bookUid = it.getInt(ARG_ITEM_ID)
-                Log.i("BookDetailFragment","Book uid:"+bookUid.toString())
             }
         }
 
@@ -44,7 +52,6 @@ class BookDetailFragment : Fragment()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val rootView = inflater.inflate(R.layout.fragment_book_detail, container, false)
-        //val rootView = inflater.inflate(R.layout.activity_book_detail, container, false)
         viewCentral = rootView
 
         return rootView
@@ -53,16 +60,23 @@ class BookDetailFragment : Fragment()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
         super.onViewCreated(view, savedInstanceState)
-        // Get Book for this detail screen
-        //loadBookRoom()
-        loadBookFirestore(bookUid)
+        loadBookRoom(bookUid)
+        //loadBookFirestore(bookUid)
     }
 
 
-    // TODO: Get Book for the given {@param ARG_ITEM_ID} Book id
-    private fun loadBookRoom()
+    private fun loadBookRoom(uid:Int)
     {
-        //Com no em funciona la base de dades Room, per avançar en la practica torno a agafar la llista de llibres de Firestore.
+        AsyncTask.execute{
+            book = booksInteractor.getBookById(uid)!!
+            bookShare = book
+            Log.i(TAG, "The selected book  by Room is:" + book.title)
+        }
+        
+        Handler(Looper.getMainLooper()).post{
+            initUI(book)
+        }
+
     }
 
     private fun loadBookFirestore(uid:Int)
@@ -85,12 +99,11 @@ class BookDetailFragment : Fragment()
             val selectedBook: List<Book> = books.filter { book -> book.uid == uid}
             book = selectedBook[0]
             bookShare = book
-            Log.i(TAG, "The selected book is:" + book.title)
+            Log.i(TAG, "The selected book  by Firestore is:" + book.title)
             initUI(book)
         }
     }
-
-    // TODO: Init UI with book details
+    
     private fun initUI(book: Book)
     {
         Log.i(TAG,"Dentro de initUI")

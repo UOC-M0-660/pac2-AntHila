@@ -21,11 +21,11 @@ class MyApplication : Application()
     {
         super.onCreate()
 
-        // TODO: Init Room Database
+        //Init Room Database
         Rdb = Room.databaseBuilder(applicationContext, ApplicationDatabase::class.java, "toni-database").build()
 
 
-        // TODO: Init BooksInteractor
+        //Init BooksInteractor
         booksInteractor = BooksInteractor(Rdb.bookDao())
     }
 

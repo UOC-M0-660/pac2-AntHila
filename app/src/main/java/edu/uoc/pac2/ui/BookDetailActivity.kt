@@ -7,19 +7,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import edu.uoc.pac2.MyApplication
 import edu.uoc.pac2.R
+import edu.uoc.pac2.data.BooksInteractor
 
 /**
  * An activity representing a single Book detail screen.
  */
 class BookDetailActivity : AppCompatActivity()
 {
+    lateinit var booksInteractor : BooksInteractor
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_detail)
         configureEnterTransition()
+        booksInteractor= (application as MyApplication).getBooksInteractor()
         setSupportActionBar(findViewById(R.id.detail_toolbar))
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener{ view ->
@@ -83,6 +87,11 @@ class BookDetailActivity : AppCompatActivity()
     fun configureExitTransition()
     {
         overridePendingTransition(R.anim.translate_in_bottom, R.anim.translate_out_top)
+    }
+
+    fun getBooksInteractorFromDetailActivity(): BooksInteractor
+    {
+        return booksInteractor
     }
 
 
